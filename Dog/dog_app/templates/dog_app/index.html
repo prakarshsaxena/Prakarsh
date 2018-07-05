@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+    <h1>This is the Dog Table:</h1>
+    <h2>Your username is: {{ user.username }}</h2>
+
+    <form action="/create" method="post">
+        {% csrf_token %}
+        {{ form }}
+
+        <input type="submit" value="create">
+    </form>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Dog Name</th>
+                <th>Breed </th>
+                <th>Created at</th>
+                <th>Updated at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dog in dogs %}
+                <tr>
+                    <td>{{ dog.name }}</td>
+                    <td>{{ dog.breed }}</td>
+                    <td>{{ dog.created_at }}</td>
+                    <td>{{ dog.updated_at }}</td>
+                    <td><a href="/edit/{{ dog.id }}"><button>Edit</button></a> <a href="/delete/{{ dog.id }}"><button>Delete</button></a> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <label name="logout" id="logout">
+        <a href="/accounts/logout"><button>logout</button></a>
+    </label>
+    {% else %}
+    <h2>You are not logged in.</h2>
+    {% endif %}
+</body>
+</html>
